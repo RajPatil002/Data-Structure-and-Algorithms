@@ -55,11 +55,15 @@ public class LinkedList {
     }
 
     void insert(int value, int index) {
-        Node prev = traversNode(index);
-        if (!prev.hasNext()) {
-            insert(value);
+        if (index <= 0) {
+            insertFront(value);
         } else {
-            prev.setNext(new Node(value, prev.getNext()));
+            Node prev = traversNode(index);
+            if (!prev.hasNext()) {
+                insert(value);
+            } else {
+                prev.setNext(new Node(value, prev.getNext()));
+            }
         }
         showList();
     }
@@ -89,11 +93,24 @@ public class LinkedList {
         } else {
             Node prev = traversNode(index);
             if (prev.hasNext() && index > 0) {
+                if (!prev.getNext().hasNext()) {
+                    end = prev;
+                }
                 prev.setNext(prev.getNext().getNext());
             } else {
                 throw new IndexOutOfBoundsException("List does not have index " + index);
             }
         }
+    }
+
+    int length() {
+        Node temp = head;
+        int counter = 0;
+        while (temp != null) {
+            temp = temp.getNext();
+            counter++;
+        }
+        return counter;
     }
 
     boolean isEmpty() {
@@ -117,10 +134,10 @@ public class LinkedList {
         list.insert(20);
         list.insertFront(30);
         list.insertFront(40);
-        list.insert(50, 100);
+        list.insert(50, 0);
         list.delete(0);
         list.showList();
-        list.delete(-3);
+        list.delete(4);
         System.out.println("delete");
         list.showList();
         System.out.println(list.pop());
