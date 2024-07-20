@@ -1,25 +1,25 @@
 package linkedlist;
 
-class DoublyNode {
-    private DoublyNode prev;
-    int value;
-    private DoublyNode next;
+class DoublyNode<T> {
+    private DoublyNode<T> prev;
+    T value;
+    private DoublyNode<T> next;
 
-    DoublyNode(int value) {
+    DoublyNode(T value) {
         this.value = value;
     }
 
-    DoublyNode(int value, DoublyNode next, DoublyNode prev) {
+    DoublyNode(T value, DoublyNode<T> next, DoublyNode<T> prev) {
         this.prev = prev;
         this.value = value;
         this.next = next;
     }
 
-    void setNext(DoublyNode next) {
+    void setNext(DoublyNode<T> next) {
         this.next = next;
     }
 
-    DoublyNode getNext() {
+    DoublyNode<T> getNext() {
         return next;
     }
 
@@ -27,11 +27,11 @@ class DoublyNode {
         return next != null;
     }
 
-    void setPrev(DoublyNode prev) {
+    void setPrev(DoublyNode<T> prev) {
         this.prev = prev;
     }
 
-    DoublyNode getPrev() {
+    DoublyNode<T> getPrev() {
         return prev;
     }
 
@@ -40,28 +40,28 @@ class DoublyNode {
     }
 }
 
-public class DoublyLinkedList {
-    private DoublyNode head, end;
+public class DoublyLinkedList<T> {
+    private DoublyNode<T> head, end;
 
-    private void link(int value, DoublyNode next, DoublyNode prev) {
-        DoublyNode temp = new DoublyNode(value, next, prev);
+    private void link(T value, DoublyNode<T> next, DoublyNode<T> prev) {
+        DoublyNode<T> temp = new DoublyNode<T>(value, next, prev);
         if (next != null)
             next.setPrev(temp);
         if (prev != null)
             prev.setNext(temp);
     }
 
-    void insert(int value) {
+    void insert(T value) {
         if (isEmpty()) {
-            head = end = new DoublyNode(value);
+            head = end = new DoublyNode<T>(value);
         } else {
             link(value, end.getNext(), end);
             end = end.getNext();
         }
     }
 
-    private DoublyNode traversNode(int index) {
-        DoublyNode temp = head;
+    private DoublyNode<T> traversNode(int index) {
+        DoublyNode<T> temp = head;
         int counter = 0;
         while (temp.hasNext()) {
             if (counter >= index - 1) {
@@ -73,11 +73,11 @@ public class DoublyLinkedList {
         return temp;
     }
 
-    void insert(int value, int index) {
+    void insert(T value, int index) {
         if (index <= 0) {
             insertFront(value);
         } else {
-            DoublyNode prev = traversNode(index);
+            DoublyNode<T> prev = traversNode(index);
             if (!prev.hasNext()) {
                 insert(value);
             } else {
@@ -87,22 +87,22 @@ public class DoublyLinkedList {
         showList();
     }
 
-    void insertFront(int value) {
+    void insertFront(T value) {
         link(value, head, head.getPrev());
         head = head.getPrev();
     }
 
-    void unlink(DoublyNode delete) {
-        DoublyNode tempnext = delete.getNext();
-        DoublyNode tempprev = delete.getPrev();
+    void unlink(DoublyNode<T> delete) {
+        DoublyNode<T> tempnext = delete.getNext();
+        DoublyNode<T> tempprev = delete.getPrev();
         if (tempnext != null)
             tempnext.setPrev(tempprev);
         if (tempprev != null)
             tempprev.setNext(tempnext);
     }
 
-    int pop() throws Exception {
-        int temp = head.value;
+    T pop() throws Exception {
+        T temp = head.value;
         delete();
         return temp;
     }
@@ -119,7 +119,7 @@ public class DoublyLinkedList {
         if (index <= 0) {
             delete();
         } else {
-            DoublyNode prev = traversNode(index);
+            DoublyNode<T> prev = traversNode(index);
             if (prev.hasNext() && index > 0) {
                 unlink(prev.getNext());
             } else {
@@ -133,7 +133,7 @@ public class DoublyLinkedList {
     }
 
     int length() {
-        DoublyNode temp = head;
+        DoublyNode<T> temp = head;
         int counter = 0;
         while (temp != null) {
             temp = temp.getNext();
@@ -144,7 +144,7 @@ public class DoublyLinkedList {
 
     void showList() {
         System.out.println("Updates:");
-        DoublyNode temp = head;
+        DoublyNode<T> temp = head;
         while (temp != null) {
             System.out.printf(" %d ", temp.value);
             if (temp.hasNext())
@@ -164,7 +164,7 @@ public class DoublyLinkedList {
     }
 
     public static void main(String[] args) throws Exception {
-        DoublyLinkedList dl = new DoublyLinkedList();
+        DoublyLinkedList<Integer> dl = new DoublyLinkedList<Integer>();
         dl.insert(10);
         dl.showList();
         dl.insert(20);
